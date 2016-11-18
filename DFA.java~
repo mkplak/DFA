@@ -3,11 +3,11 @@ import java.io.*;
 
 public class DFA {
 
-	public void readInDFA(int numStates, List<String> acceptStates, String alphabet, List<String> transTable, List<String> dfaList) {
+	public void readInDFA(int numStates, List<String> acceptStates, String alphabet, String[] transTable, List<String> dfaList) {
 		int numAccepting = 0;
 		int alphabetSize = 0;
 		int transCtr = 0;
-		String[] table = null;// = new String[numStates];
+		
 		for (int i = 0; i < dfaList.size(); i++) {
 			System.out.println(dfaList.get(i));
 			// get the number of states
@@ -15,7 +15,9 @@ public class DFA {
 				String temp = dfaList.get(i);
 				temp = temp.substring(18,19);
 				numStates = Integer.parseInt(temp);
-				table = new String[numStates];
+				transTable = new String[numStates];
+
+				//makeDFA.setNumStates(numStates);
 			}
 			// get the accepting states
 			else if (dfaList.get(i).contains("Accepting")) {
@@ -55,30 +57,29 @@ public class DFA {
 				// create an array that is the size of the number of states
 				// in here, i will create a string for each row in the table of the transition table
 				String readIn = dfaList.get(i);
-				//System.out.println("readIN: " + readIn);
-
 				readIn = readIn.replaceAll("\\s+", "");
-				//System.out.println("readin is: " + readIn);
-				table[transCtr] = transCtr + " " + readIn;
-				
-				transCtr++;
-
-
-				
+				transTable[transCtr] = transCtr + " " + readIn;
+				transCtr++;				
 			}
-				for (int k = 0; k < table.length; k++) {
-					System.out.println(table[k]);
-				}
+			for (int k = 0; k < transTable.length; k++) {
+				System.out.println(transTable[k]);
+			}
 		}
+		simulator(numStates, acceptStates, alphabet, transTable, dfaList);
+	}
+	
+	public void simulator(int numStates, List<String> acceptStates, String alphabet, String[] transTable, List<String> dfaList) {
+		
 	}
 
   public static void main(String[] args) {
 	// from looking at my CSCE 146 code, you need to make a class object in order to get around the static/non-static issue
 	DFA dfa = new DFA();
+	MakeDFA newDFA = new MakeDFA();
 	int numStates = 0;
 	List<String> acceptStates = new ArrayList<String>();
 	String alphabet = "";
-	List<String> transTable = new ArrayList<String>();
+	String[] transTable = null;
 	List<String> dfaList = new ArrayList<String>();
 
 
@@ -119,5 +120,6 @@ public class DFA {
 	// now that the data has been taken from the file and stored in the DFA list
 	// we can begin parsing it
 	dfa.readInDFA(numStates, acceptStates, alphabet, transTable, dfaList);
+
   }
 }
