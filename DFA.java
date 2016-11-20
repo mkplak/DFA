@@ -7,6 +7,8 @@ public class DFA {
 		int numAccepting = 0;
 		int alphabetSize = 0;
 		int transCtr = 0;
+		//int numStates = 0;
+		int[][] transTableNum = new int[numStates][alphabetSize];
 		
 		for (int i = 0; i < dfaList.size(); i++) {
 			System.out.println(dfaList.get(i));
@@ -88,15 +90,32 @@ public class DFA {
 				temp3 = temp3.substring(10,temp3.length());
 				alphabet = temp3;
 				alphabetSize = alphabet.length();
+				transTableNum = new int[numStates][alphabetSize];
 			}
 			// read in the transition table
 			else {
 				// create an array that is the size of the number of states
 				// in here, i will create a string for each row in the table of the transition table
+				//String readIn = dfaList.get(i); //rows x columns
 				String readIn = dfaList.get(i);
+
+
+				if (i > 2) {
+					System.out.println("reading in this line: " + readIn);
+					for (int q = 0; q < alphabetSize; q++) {
+						String[] rowStr = readIn.split(" ");
+						int rowInt = Integer.parseInt(rowStr[q]);
+						System.out.println("row is: " + (i-3) + " column is: " + (q));
+						transTableNum[i-3][q] = rowInt;
+					}
+
+				}
+
 				//readIn = readIn.replaceAll("\\s+", "");
-				transTable[transCtr] = transCtr + " " + readIn;
-				transCtr++;
+				
+				//transTable[transCtr] = transCtr + " " + readIn;
+				//transCtr++;
+
 				/*transTable = readIn.split(" ");
 				for (int o = 0; o < transTable.length; o++) {
 					System.out.println("item split: " + transTable[o]);
@@ -104,14 +123,19 @@ public class DFA {
 			}
 
 		}
-			System.out.println("\n\n");
-			for (int k = 0; k < transTable.length; k++) {
-				System.out.println(transTable[k]);
+			System.out.println("\n\nTransTable");
+			for (int k = 0; k < numStates; k++) {
+				for (int l = 0; l < alphabetSize; l++) {
+					System.out.print(transTableNum[k][l]);
+				}
+				System.out.println("");
+				
 			}
 		simulator(numStates, acceptStates, alphabet, transTable, dfaList);
 	}
 	
 	public void simulator(int numStates, List<String> acceptStates, String alphabet, String[] transTable, List<String> dfaList) {
+		String line = "0000";
 		
 	}
 
@@ -132,6 +156,7 @@ public class DFA {
 	File inFile = null;
 	if (0 < args.length) {
 	   inFile = new File(args[0]);
+	   //strings = new File(args[1]);
 	} else {
 	   System.err.println("Invalid arguments count:" + args.length);
 	   System.exit(0);
