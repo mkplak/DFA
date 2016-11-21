@@ -11,7 +11,7 @@ public class DFA {
 		int[][] transTableNum = new int[numStates][alphabetSize];
 		
 		for (int i = 0; i < dfaList.size(); i++) {
-			System.out.println(dfaList.get(i));
+			//System.out.println(dfaList.get(i));
 			// get the number of states
 			if (dfaList.get(i).contains("Number")) {
 				String temp = dfaList.get(i);
@@ -96,16 +96,16 @@ public class DFA {
 			else {
 				// create an array that is the size of the number of states
 				// in here, i will create a string for each row in the table of the transition table
-				//String readIn = dfaList.get(i); //rows x columns
+				//rows x columns
 				String readIn = dfaList.get(i);
 
 
 				if (i > 2) {
-					System.out.println("reading in this line: " + readIn);
+					//System.out.println("reading in this line: " + readIn);
 					for (int q = 0; q < alphabetSize; q++) {
 						String[] rowStr = readIn.split(" ");
 						int rowInt = Integer.parseInt(rowStr[q]);
-						System.out.println("row is: " + (i-3) + " column is: " + (q));
+						//System.out.println("row is: " + (i-3) + " column is: " + (q));
 						transTableNum[i-3][q] = rowInt;
 					}
 
@@ -123,14 +123,14 @@ public class DFA {
 			}
 
 		}
-			System.out.println("\n\nTransTable");
+			/*System.out.println("\n\nTransTable");
 			for (int k = 0; k < numStates; k++) {
 				for (int l = 0; l < alphabetSize; l++) {
 					System.out.print(transTableNum[k][l]);
 				}
 				System.out.println("");
 				
-			}
+			}*/
 		simulator(numStates, acceptStates, alphabet, transTableNum, dfaList, stringsList);
 	}
 	
@@ -141,6 +141,7 @@ public class DFA {
 		int numReturn = 0;
 		int currentState = 0;
 		int nextState = 0;
+		int indexOfElem = 0;
 
 		for (int a = 0; a < stringsList.size(); a++) {
 			line = stringsList.get(a);
@@ -150,21 +151,25 @@ public class DFA {
 			char[] lineChar = line.toCharArray();
 			lineToCheck = new int[lineLength];
 			// step through the char array and convert each item to an integer for use in the transition
-			for (int i = 0; i < lineLength; i++) {
+			/*for (int i = 0; i < lineLength; i++) {
 				String lineCharStr = String.valueOf(lineChar[i]);
+				indexOfElem = alphabet.indexOf(lineCharStr);
 				int lineCharNum = Integer.parseInt(lineCharStr);
 				//System.out.println("line as a num: " + lineCharNum);
 				lineToCheck[i] = lineCharNum;
-			}
+			}*/
 			for (int j = 0; j < lineLength; j++) {
+				String lineCharStr = String.valueOf(lineChar[j]);
+				indexOfElem = alphabet.indexOf(lineCharStr);
+				currentState = transTable[currentState][indexOfElem];
 				//System.out.println("checking num: " + lineToCheck[j]);
-				nextState = lineToCheck[j];
+				//nextState = lineToCheck[j];
 				//System.out.println("next state: " + nextState);
-				numReturn = transTable[currentState][nextState];
+				//numReturn = transTable[currentState][nextState];
 				//System.out.println("num returned: " + numReturn);
-				currentState = numReturn;
+				//currentState = numReturn;
 			}
-			String finalNum = String.valueOf(numReturn);
+			String finalNum = String.valueOf(currentState);
 			//System.out.println("accept states contains " + numReturn + " is: " + acceptStates.contains(String.valueOf(numReturn)));
 			if (acceptStates.contains(String.valueOf(finalNum)) == true) {
 				System.out.println("accept");
@@ -236,7 +241,7 @@ public class DFA {
 	    br2 = new BufferedReader(new FileReader(strings));
 	    while ((currLine = br2.readLine()) != null) {
 		stringsList.add(currLine);
-	        System.out.println(currLine);
+	        //System.out.println(currLine);
 	    }
 	} 
 
