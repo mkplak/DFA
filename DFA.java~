@@ -3,7 +3,7 @@ import java.io.*;
 
 public class DFA {
 
-	public void readInDFA(int numStates, List<String> acceptStates, String alphabet, String[] transTable, List<String> dfaList) {
+	public void readInDFA(int numStates, List<String> acceptStates, String alphabet, String[] transTable, List<String> dfaList, List<String> stringsList) {
 		int numAccepting = 0;
 		int alphabetSize = 0;
 		int transCtr = 0;
@@ -31,10 +31,10 @@ public class DFA {
 				temp2 = temp2.substring(18,temp2.length());
 				String currElemStr = "";//String.valueOf(currElem);
 				String[] acceptStatesArr = temp2.split(" ");
-				/*for (int n = 0; n < acceptStatesArr.length; n++) {
-					System.out.println("item split: " + acceptStatesArr[n]);
+				for (int n = 0; n < acceptStatesArr.length; n++) {
+					//System.out.println("item split: " + acceptStatesArr[n]);
 					acceptStates.add(acceptStatesArr[n]);
-				}*/
+				}
 
 				/*temp2 = temp2.replaceAll("\\s+", "");
 				for (int j = 0; j < temp2.length(); j++) {
@@ -131,11 +131,60 @@ public class DFA {
 				System.out.println("");
 				
 			}
-		simulator(numStates, acceptStates, alphabet, transTable, dfaList);
+		simulator(numStates, acceptStates, alphabet, transTableNum, dfaList, stringsList);
 	}
 	
-	public void simulator(int numStates, List<String> acceptStates, String alphabet, String[] transTable, List<String> dfaList) {
-		String line = "0000";
+	public void simulator(int numStates, List<String> acceptStates, String alphabet, int[][] transTable, List<String> dfaList, List<String> stringsList) {
+		String line = "";
+		int lineLength = 0;
+		int[] lineToCheck = new int[lineLength];
+		int numReturn = 0;
+		int currentState = 0;
+		int nextState = 0;
+
+		//System.out.println("accept states size is: " + acceptStates.size());
+
+		//for (int b = 0; b < acceptStates.size(); b++) {
+		//	System.out.println("accept states item " + "b is: " + acceptStates.get(b));
+		//}
+
+		for (int a = 0; a < stringsList.size(); a++) {
+			line = stringsList.get(a);
+			// get the length of the line so you know how many transitions to do
+			lineLength = line.length();
+			//System.out.println("line size: " + line.length());
+			// convert the String line to a char array to look at each item
+			char[] lineChar = line.toCharArray();
+			lineToCheck = new int[lineLength];
+			// step through the char array and convert each item to an integer for use in the transition
+			for (int i = 0; i < lineLength; i++) {
+				String lineCharStr = String.valueOf(lineChar[i]);
+				int lineCharNum = Integer.parseInt(lineCharStr);
+				//System.out.println("line as a num: " + lineCharNum);
+				lineToCheck[i] = lineCharNum;
+			}
+			for (int j = 0; j < lineLength; j++) {
+				//System.out.println("checking num: " + lineToCheck[j]);
+				nextState = lineToCheck[j];
+				//System.out.println("next state: " + nextState);
+				numReturn = transTable[currentState][nextState];
+				//System.out.println("num returned: " + numReturn);
+				currentState = numReturn;
+			}
+			String finalNum = String.valueOf(numReturn);
+			//System.out.println("accept states contains " + numReturn + " is: " + acceptStates.contains(String.valueOf(numReturn)));
+			if (acceptStates.contains(String.valueOf(finalNum)) == true) {
+				System.out.println("accept");
+			}
+			else {
+				System.out.println("reject");
+			}
+			// reset the current state to zero since the start state is always zero
+			currentState = 0;
+		}
+
+		
+
 		
 	}
 
@@ -148,15 +197,17 @@ public class DFA {
 	String alphabet = "";
 	String[] transTable = null;
 	List<String> dfaList = new ArrayList<String>();
+	List<String> stringsList = new ArrayList<String>();
 
 
 	// http://stackoverflow.com/questions/16802147/java-i-want-to-read-a-file-name-from-command-line-then-use-a-bufferedreader-to
-	// read in from a file on the cmd line
+	// read in from the DFA description, and the list of strings on the cmd line
 	// we are reading in the DFA as described in the project assignment
 	File inFile = null;
+	File strings = null;
 	if (0 < args.length) {
 	   inFile = new File(args[0]);
-	   //strings = new File(args[1]);
+	   strings = new File(args[1]);
 	} else {
 	   System.err.println("Invalid arguments count:" + args.length);
 	   System.exit(0);
@@ -168,7 +219,7 @@ public class DFA {
 	    String currLine;
 	    br = new BufferedReader(new FileReader(inFile));
 	    while ((currLine = br.readLine()) != null) {
-			dfaList.add(currLine);
+		dfaList.add(currLine);
 	        //System.out.println(currLine);
 	    }
 	} 
@@ -185,9 +236,34 @@ public class DFA {
 	    }
   	}
 
+	BufferedReader br2 = null;
+
+	try {
+	    String currLine;
+	    br2 = new BufferedReader(new FileReader(strings));
+	    while ((currLine = br2.readLine()) != null) {
+		stringsList.add(currLine);
+	        System.out.println(currLine);
+	    }
+	} 
+
+	catch (IOException e) {
+	    e.printStackTrace();
+	} 
+
+	finally {
+	    try {
+	        if (br2 != null)br2.close();
+	    } catch (IOException ex) {
+	        ex.printStackTrace();
+	    }
+  	}
+
 	// now that the data has been taken from the file and stored in the DFA list
 	// we can begin parsing it
-	dfa.readInDFA(numStates, acceptStates, alphabet, transTable, dfaList);
+	dfa.readInDFA(numStates, acceptStates, alphabet, transTable, dfaList, stringsList);
+
+	
 
   }
 }
