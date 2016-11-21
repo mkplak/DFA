@@ -99,27 +99,14 @@ public class DFA {
 				//rows x columns
 				String readIn = dfaList.get(i);
 
-
 				if (i > 2) {
-					//System.out.println("reading in this line: " + readIn);
 					for (int q = 0; q < alphabetSize; q++) {
 						String[] rowStr = readIn.split(" ");
 						int rowInt = Integer.parseInt(rowStr[q]);
-						//System.out.println("row is: " + (i-3) + " column is: " + (q));
 						transTableNum[i-3][q] = rowInt;
 					}
 
-				}
-
-				//readIn = readIn.replaceAll("\\s+", "");
-				
-				//transTable[transCtr] = transCtr + " " + readIn;
-				//transCtr++;
-
-				/*transTable = readIn.split(" ");
-				for (int o = 0; o < transTable.length; o++) {
-					System.out.println("item split: " + transTable[o]);
-				}*/				
+				}				
 			}
 
 		}
@@ -150,24 +137,11 @@ public class DFA {
 			// convert the String line to a char array to look at each item
 			char[] lineChar = line.toCharArray();
 			lineToCheck = new int[lineLength];
-			// step through the char array and convert each item to an integer for use in the transition
-			/*for (int i = 0; i < lineLength; i++) {
-				String lineCharStr = String.valueOf(lineChar[i]);
-				indexOfElem = alphabet.indexOf(lineCharStr);
-				int lineCharNum = Integer.parseInt(lineCharStr);
-				//System.out.println("line as a num: " + lineCharNum);
-				lineToCheck[i] = lineCharNum;
-			}*/
+
 			for (int j = 0; j < lineLength; j++) {
 				String lineCharStr = String.valueOf(lineChar[j]);
 				indexOfElem = alphabet.indexOf(lineCharStr);
 				currentState = transTable[currentState][indexOfElem];
-				//System.out.println("checking num: " + lineToCheck[j]);
-				//nextState = lineToCheck[j];
-				//System.out.println("next state: " + nextState);
-				//numReturn = transTable[currentState][nextState];
-				//System.out.println("num returned: " + numReturn);
-				//currentState = numReturn;
 			}
 			String finalNum = String.valueOf(currentState);
 			//System.out.println("accept states contains " + numReturn + " is: " + acceptStates.contains(String.valueOf(numReturn)));
