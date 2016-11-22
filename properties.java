@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class DFA {
+public class properties {
 
 	public void readInDFA(int numStates, List<String> acceptStates, String alphabet, String[] transTable, List<String> dfaList, List<String> stringsList) {
 		int numAccepting = 0;
@@ -118,10 +118,10 @@ public class DFA {
 				System.out.println("");
 				
 			}*/
-		simulator(numStates, acceptStates, alphabet, transTableNum, dfaList, stringsList);
+		properties(numStates, acceptStates, alphabet, transTableNum, dfaList, stringsList);
 	}
 	
-	public void simulator(int numStates, List<String> acceptStates, String alphabet, int[][] transTable, List<String> dfaList, List<String> stringsList) {
+	/*public void simulator(int numStates, List<String> acceptStates, String alphabet, int[][] transTable, List<String> dfaList, List<String> stringsList) {
 		String line = "";
 		int lineLength = 0;
 		int[] lineToCheck = new int[lineLength];
@@ -143,6 +143,7 @@ public class DFA {
 				indexOfElem = alphabet.indexOf(lineCharStr);
 				currentState = transTable[currentState][indexOfElem];
 			}
+			System.out.println("Current " + currentState);
 			String finalNum = String.valueOf(currentState);
 			//System.out.println("accept states contains " + numReturn + " is: " + acceptStates.contains(String.valueOf(numReturn)));
 			if (acceptStates.contains(String.valueOf(finalNum)) == true) {
@@ -158,11 +159,45 @@ public class DFA {
 		
 
 		
+	}*/
+
+	/*
+		nonempty if and only if some final state is reachable from the start state.
+	*/
+
+	public void properties(int numStates, List<String> acceptStates, String alphabet, int[][] transTable, List<String> dfaList, List<String> stringsList) {
+		// conver the accepting states into an Integer array so we can add transTable values later on
+		//int[] acceptInt = new int[acceptStates.size()];
+		List<Integer> acceptInt = new ArrayList<Integer>();
+		for (int a = 0; a < acceptStates.size(); a++) {
+			String acceptCurr = acceptStates.get(a);
+			int acceptIntNum = Integer.valueOf(acceptCurr);
+			acceptInt.add(acceptIntNum);
+			System.out.println("accept state is: " + acceptInt.get(a));
+		}
+		// look at each line in the transition table starting at 0 (start state)
+		// if we see an accepting state not at the current state or zero, we add it to acceptingInt's array to check later
+		for (int i = 0; i < numStates; i++) {
+			for (int j = 0; j < alphabet.length(); j++) {
+				int returned = transTable[i][j];
+				System.out.print(" item: " + returned);
+				for (int k = 0; k < acceptInt.size(); k++) {
+					if (returned == acceptInt.get(k) && i != returned && i != 0) {
+						acceptInt.add(i);
+						System.out.println(" accept int is: " + i);
+						break;
+					}
+				}
+			}
+			System.out.println("");
+		}
 	}
+
+
 
   public static void main(String[] args) {
 	// from looking at my CSCE 146 code, you need to make a class object in order to get around the static/non-static issue
-	DFA dfa = new DFA();
+	properties dfa = new properties();
 	MakeDFA newDFA = new MakeDFA();
 	int numStates = 0;
 	List<String> acceptStates = new ArrayList<String>();
@@ -176,10 +211,8 @@ public class DFA {
 	// read in from the DFA description, and the list of strings on the cmd line
 	// we are reading in the DFA as described in the project assignment
 	File inFile = null;
-	File strings = null;
 	if (0 < args.length) {
 	   inFile = new File(args[0]);
-	   strings = new File(args[1]);
 	} else {
 	   System.err.println("Invalid arguments count:" + args.length);
 	   System.exit(0);
@@ -208,28 +241,6 @@ public class DFA {
 	    }
   	}
 
-	BufferedReader br2 = null;
-
-	try {
-	    String currLine;
-	    br2 = new BufferedReader(new FileReader(strings));
-	    while ((currLine = br2.readLine()) != null) {
-		stringsList.add(currLine);
-	        //System.out.println(currLine);
-	    }
-	} 
-
-	catch (IOException e) {
-	    e.printStackTrace();
-	} 
-
-	finally {
-	    try {
-	        if (br2 != null)br2.close();
-	    } catch (IOException ex) {
-	        ex.printStackTrace();
-	    }
-  	}
 
 	// now that the data has been taken from the file and stored in the DFA list
 	// we can begin parsing it
