@@ -118,6 +118,7 @@ public class closure {
 				
 			}*/
 
+		System.out.println("isConstruct: " + isConstruct);
 		if (isConstruct == true) {
 			construction(numStates, acceptStates, alphabet, transTableNum, dfaList, stringsList);
 		}
@@ -225,8 +226,10 @@ public class closure {
 	try {
 	    String currLine;
 	    br = new BufferedReader(new FileReader(complement));
+		System.out.println("first DFA is: ");
 	    while ((currLine = br.readLine()) != null) {
 		dfaList.add(currLine);
+		System.out.println(currLine);
 	    }
 	} 
 
@@ -256,9 +259,10 @@ public class closure {
 		try {
 		    String currLine;
 		    br2 = new BufferedReader(new FileReader(construct));
+		    System.out.println("second DFA is: ");
 		    while ((currLine = br2.readLine()) != null) {
 			dfaList2.add(currLine);
-			//System.out.println(currLine);
+			System.out.println(currLine);
 		    }
 		} 
 
@@ -275,9 +279,25 @@ public class closure {
 	  	}
 		dfa2.readInDFA(numStates2, acceptStates2, alphabet2, transTable2, dfaList2, constructList2, secondArg);
 	}
-
-
-	
-
   }
+}
+
+public class DFAObj {
+	int numStatesObj = 0;
+	List<String> acceptStatesObj = new ArrayList<String>();
+	String alphabetObj = "";
+	//String[] transTableObj = null;
+	List<String> dfaListObj = new ArrayList<String>();
+	List<String> stringsListObj = new ArrayList<String>();
+	boolean isConstruct = false;
+	int[][] transTableObj = new int[numStatesObj][alphabetObj.length()];
+
+	DFA(int numStates, List<String> acceptStates, String alphabet, List<String> dfaList, List<String> stringsList, int[][] transTable) {
+		this.numStatesObj = numStates;
+		this.acceptStatesObj = acceptStates;
+		this.alphabetObj = alphabet;
+		this.dfaListObj = dfaList;
+		this.stringsListObj = stringsList;
+		this.transTableObj = transTable;
+	}
 }
