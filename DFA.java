@@ -1,8 +1,16 @@
 import java.util.*;
 import java.io.*;
 
-public class DFA {
+/*
+This is made by Melissa Plakyda for CSCE 355-001 Fall 2016.
+This class performs the simulator task as described in the assignments document.
+*/
 
+public class DFA {
+	// readInDFA takes in all the information read in in the main and then parses through the data to get the information required
+	// from the DFA description file and store it appropriately.
+	// At the end, I pass that information into the simulator method. (I had issues with global variables, that's why I did it
+	// this messy way of passing things around. I know it's not the best practice.)
 	public void readInDFA(int numStates, List<String> acceptStates, String alphabet, String[] transTable, List<String> dfaList, List<String> stringsList) {
 		int numAccepting = 0;
 		int alphabetSize = 0;
@@ -23,6 +31,7 @@ public class DFA {
 				// add a space at the end to get the last item
 				temp2 += " ";
 				numAccepting = temp2.length();
+				// go from the start of the accepting states, parse through and get the states w/o spaces
 				temp2 = temp2.substring(18,temp2.length());
 				String currElemStr = "";
 				String[] acceptStatesArr = temp2.split(" ");
@@ -36,6 +45,7 @@ public class DFA {
 				temp3 = temp3.substring(10,temp3.length());
 				alphabet = temp3;
 				alphabetSize = alphabet.length();
+				// set the size of the transition table now that we know the size of our alphabet
 				transTableNum = new int[numStates][alphabetSize];
 			}
 			// read in the transition table
@@ -45,6 +55,7 @@ public class DFA {
 				//rows x columns
 				String readIn = dfaList.get(i);
 
+				// This checks to see that it's actually the beginning of the transition table.
 				if (i > 2) {
 					for (int q = 0; q < alphabetSize; q++) {
 						String[] rowStr = readIn.split(" ");
@@ -59,6 +70,7 @@ public class DFA {
 		simulator(numStates, acceptStates, alphabet, transTableNum, dfaList, stringsList);
 	}
 	
+	// The simulator reads in the strings and then based on the DFA description, accepts or rejects.
 	public void simulator(int numStates, List<String> acceptStates, String alphabet, int[][] transTable, List<String> dfaList, List<String> stringsList) {
 		String line = "";
 		int lineLength = 0;
@@ -68,6 +80,7 @@ public class DFA {
 		int nextState = 0;
 		int indexOfElem = 0;
 
+		// loop through the file of strings and perform the simulator on them.
 		for (int a = 0; a < stringsList.size(); a++) {
 			line = stringsList.get(a);
 			// get the length of the line so you know how many transitions to do
@@ -75,13 +88,13 @@ public class DFA {
 			// convert the String line to a char array to look at each item
 			char[] lineChar = line.toCharArray();
 			lineToCheck = new int[lineLength];
-
+			// go through the line, convert it to a string to get the index of it in the alphabet
 			for (int j = 0; j < lineLength; j++) {
 				String lineCharStr = String.valueOf(lineChar[j]);
 				indexOfElem = alphabet.indexOf(lineCharStr);
 				currentState = transTable[currentState][indexOfElem];
 			}
-			System.out.println("Current " + currentState);
+			// check to see if the final state is an accepting state, which was read in earlier
 			String finalNum = String.valueOf(currentState);
 			if (acceptStates.contains(String.valueOf(finalNum)) == true) {
 				System.out.println("accept");
@@ -92,10 +105,6 @@ public class DFA {
 			// reset the current state to zero since the start state is always zero
 			currentState = 0;
 		}
-
-		
-
-		
 	}
 
   public static void main(String[] args) {

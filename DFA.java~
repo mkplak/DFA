@@ -1,26 +1,29 @@
 import java.util.*;
 import java.io.*;
 
-public class DFA {
+/*
+This is made by Melissa Plakyda for CSCE 355-001 Fall 2016.
+This class performs the simulator task as described in the assignments document.
+*/
 
+public class DFA {
+	// readInDFA takes in all the information read in in the main and then parses through the data to get the information required
+	// from the DFA description file and store it appropriately.
+	// At the end, I pass that information into the simulator method. (I had issues with global variables, that's why I did it
+	// this messy way of passing things around. I know it's not the best practice.)
 	public void readInDFA(int numStates, List<String> acceptStates, String alphabet, String[] transTable, List<String> dfaList, List<String> stringsList) {
 		int numAccepting = 0;
 		int alphabetSize = 0;
 		int transCtr = 0;
-		//int numStates = 0;
 		int[][] transTableNum = new int[numStates][alphabetSize];
 		
 		for (int i = 0; i < dfaList.size(); i++) {
-			//System.out.println(dfaList.get(i));
 			// get the number of states
 			if (dfaList.get(i).contains("Number")) {
 				String temp = dfaList.get(i);
 				temp = temp.substring(18);
-				//System.out.println("temp: " + temp);
 				numStates = Integer.parseInt(temp);
 				transTable = new String[numStates];
-
-				//makeDFA.setNumStates(numStates);
 			}
 			// get the accepting states
 			else if (dfaList.get(i).contains("Accepting")) {
@@ -28,61 +31,13 @@ public class DFA {
 				// add a space at the end to get the last item
 				temp2 += " ";
 				numAccepting = temp2.length();
+				// go from the start of the accepting states, parse through and get the states w/o spaces
 				temp2 = temp2.substring(18,temp2.length());
-				String currElemStr = "";//String.valueOf(currElem);
+				String currElemStr = "";
 				String[] acceptStatesArr = temp2.split(" ");
 				for (int n = 0; n < acceptStatesArr.length; n++) {
-					//System.out.println("item split: " + acceptStatesArr[n]);
 					acceptStates.add(acceptStatesArr[n]);
 				}
-
-				/*temp2 = temp2.replaceAll("\\s+", "");
-				for (int j = 0; j < temp2.length(); j++) {
-					char currElem = temp2.charAt(j);
-					System.out.println("curr item: " + temp2.substring(j,j+1));
-					System.out.println("is next: " + temp2.substring(j+1,j+2));
-					String test = "hello"+ temp2.substring(j+1,j+2) + "elloh";
-					System.out.println(test);
-
-					if (j+2 <= temp2.length() && temp2.substring(j+1,j+2) == " ") {
-						System.out.println("in first check, resetting currElemStr");
-						currElemStr = "";
-					}
-					else if (j+2 <= temp2.length() && temp2.substring(j+1,j+2) != " ") {
-						currElem = temp2.charAt(j);
-						currElemStr += String.valueOf(currElem);
-						System.out.println("curr elem: " + currElem);
-						System.out.println("currElemStr= " + currElemStr);
-						if (currElem != ' ') {
-							acceptStates.add(currElemStr);
-							System.out.println("added: " + currElemStr);
-						}
-						//acceptStates.add(currElemStr);
-						//System.out.println(currElemStr);
-					}
-
-
-
-
-					//char currElem = temp2.charAt(j);
-					//String currElemStr = String.valueOf(currElem);
-					//acceptStates.add(currElemStr);
-					//System.out.println(currElemStr);
-				}*/
-
-				/*System.out.println("length: " + temp.length());
-				int length = temp.length();
-				char[] alphaChar = temp.toCharArray();
-				for (i = 0; i < length; i++) {
-					if (alphaChar[i] != '\n') { // || alphaChar[i] != ' ') {
-						//if (alphaChar[i] == ' ') break;
-						System.out.println("temp substr: " + alphaChar[i]);//temp.substring(i,i+1));
-						//int temp = Integer.parseInt(temp.substring(counter,counter+1));
-						temp = Character.toString(alphaChar[i]);//temp.substring(i,i+1);
-						acceptStates.add(temp);
-						System.out.println(temp);
-					}
-				}*/
 			}
 			// get the alphabet
 			else if (dfaList.get(i).contains("Alphabet")) {
@@ -90,6 +45,7 @@ public class DFA {
 				temp3 = temp3.substring(10,temp3.length());
 				alphabet = temp3;
 				alphabetSize = alphabet.length();
+				// set the size of the transition table now that we know the size of our alphabet
 				transTableNum = new int[numStates][alphabetSize];
 			}
 			// read in the transition table
@@ -99,6 +55,7 @@ public class DFA {
 				//rows x columns
 				String readIn = dfaList.get(i);
 
+				// This checks to see that it's actually the beginning of the transition table.
 				if (i > 2) {
 					for (int q = 0; q < alphabetSize; q++) {
 						String[] rowStr = readIn.split(" ");
@@ -110,17 +67,10 @@ public class DFA {
 			}
 
 		}
-			/*System.out.println("\n\nTransTable");
-			for (int k = 0; k < numStates; k++) {
-				for (int l = 0; l < alphabetSize; l++) {
-					System.out.print(transTableNum[k][l]);
-				}
-				System.out.println("");
-				
-			}*/
 		simulator(numStates, acceptStates, alphabet, transTableNum, dfaList, stringsList);
 	}
 	
+	// The simulator reads in the strings and then based on the DFA description, accepts or rejects.
 	public void simulator(int numStates, List<String> acceptStates, String alphabet, int[][] transTable, List<String> dfaList, List<String> stringsList) {
 		String line = "";
 		int lineLength = 0;
@@ -130,6 +80,7 @@ public class DFA {
 		int nextState = 0;
 		int indexOfElem = 0;
 
+		// loop through the file of strings and perform the simulator on them.
 		for (int a = 0; a < stringsList.size(); a++) {
 			line = stringsList.get(a);
 			// get the length of the line so you know how many transitions to do
@@ -137,15 +88,14 @@ public class DFA {
 			// convert the String line to a char array to look at each item
 			char[] lineChar = line.toCharArray();
 			lineToCheck = new int[lineLength];
-
+			// go through the line, convert it to a string to get the index of it in the alphabet
 			for (int j = 0; j < lineLength; j++) {
 				String lineCharStr = String.valueOf(lineChar[j]);
 				indexOfElem = alphabet.indexOf(lineCharStr);
 				currentState = transTable[currentState][indexOfElem];
 			}
-			System.out.println("Current " + currentState);
+			//System.out.println("Current " + currentState);
 			String finalNum = String.valueOf(currentState);
-			//System.out.println("accept states contains " + numReturn + " is: " + acceptStates.contains(String.valueOf(numReturn)));
 			if (acceptStates.contains(String.valueOf(finalNum)) == true) {
 				System.out.println("accept");
 			}
@@ -155,10 +105,6 @@ public class DFA {
 			// reset the current state to zero since the start state is always zero
 			currentState = 0;
 		}
-
-		
-
-		
 	}
 
   public static void main(String[] args) {
@@ -193,7 +139,6 @@ public class DFA {
 	    br = new BufferedReader(new FileReader(inFile));
 	    while ((currLine = br.readLine()) != null) {
 		dfaList.add(currLine);
-	        //System.out.println(currLine);
 	    }
 	} 
 
@@ -216,7 +161,6 @@ public class DFA {
 	    br2 = new BufferedReader(new FileReader(strings));
 	    while ((currLine = br2.readLine()) != null) {
 		stringsList.add(currLine);
-	        //System.out.println(currLine);
 	    }
 	} 
 
@@ -235,8 +179,6 @@ public class DFA {
 	// now that the data has been taken from the file and stored in the DFA list
 	// we can begin parsing it
 	dfa.readInDFA(numStates, acceptStates, alphabet, transTable, dfaList, stringsList);
-
-	
 
   }
 }

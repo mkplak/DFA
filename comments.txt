@@ -1,4 +1,4 @@
-Comments for self-test -------- Tue Nov 29, 2016 at 21:13:59 EST
+Comments for self-test -------- Wed Nov 30, 2016 at 18:30:20 EST
 parsing simulator.txt ... done
 building simulator ...
   javac DFA.java
