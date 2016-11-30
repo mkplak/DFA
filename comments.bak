@@ -1,4 +1,4 @@
-Comments for self-test -------- Tue Nov 29, 2016 at 20:50:22 EST
+Comments for self-test -------- Tue Nov 29, 2016 at 21:0:35 EST
 parsing simulator.txt ... done
 building simulator ...
   javac DFA.java
@@ -77,42 +77,42 @@ testing boolop ...
     java closure smallDFA.txt smallDFA2.txt > test-outputs/boolop/smallDFA-x-smallDFA2.txt 2> test-outputs/boolop/smallDFA-x-smallDFA2-err.txt
     terminated normally
   test-outputs/boolop/smallDFA-x-smallDFA2.txt exists -- checking equivalence with solution DFA
-  OUTPUT FILE IS NOT A DFA (DFA PARSE ERROR)
+  the DFAs are equivalent (correct)
   Running boolop (product) on smallerDFA and handoutDFA ...
     java closure smallerDFA.txt handoutDFA.txt > test-outputs/boolop/smallerDFA-x-handoutDFA.txt 2> test-outputs/boolop/smallerDFA-x-handoutDFA-err.txt
     terminated normally
   test-outputs/boolop/smallerDFA-x-handoutDFA.txt exists -- checking equivalence with solution DFA
-  OUTPUT FILE IS NOT A DFA (DFA PARSE ERROR)
+  the DFAs are equivalent (correct)
   Running boolop (product) on handoutDFA and smallerDFA ...
     java closure handoutDFA.txt smallerDFA.txt > test-outputs/boolop/handoutDFA-x-smallerDFA.txt 2> test-outputs/boolop/handoutDFA-x-smallerDFA-err.txt
     terminated normally
   test-outputs/boolop/handoutDFA-x-smallerDFA.txt exists -- checking equivalence with solution DFA
-  OUTPUT FILE IS NOT A DFA (DFA PARSE ERROR)
+  the DFAs are equivalent (correct)
   Running boolop (product) on searchDFA1 and searchDFA2 ...
     java closure searchDFA1.txt searchDFA2.txt > test-outputs/boolop/searchDFA1-x-searchDFA2.txt 2> test-outputs/boolop/searchDFA1-x-searchDFA2-err.txt
     terminated normally
   test-outputs/boolop/searchDFA1-x-searchDFA2.txt exists -- checking equivalence with solution DFA
-  OUTPUT FILE IS NOT A DFA (DFA PARSE ERROR)
+  the DFAs are equivalent (correct)
   Running boolop (product) on searchDFA2 and searchDFA1 ...
     java closure searchDFA2.txt searchDFA1.txt > test-outputs/boolop/searchDFA2-x-searchDFA1.txt 2> test-outputs/boolop/searchDFA2-x-searchDFA1-err.txt
     terminated normally
   test-outputs/boolop/searchDFA2-x-searchDFA1.txt exists -- checking equivalence with solution DFA
-  OUTPUT FILE IS NOT A DFA (DFA PARSE ERROR)
+  the DFAs are equivalent (correct)
   Running boolop (product) on bigDFA and randomHexDFA ...
     java closure bigDFA.txt randomHexDFA.txt > test-outputs/boolop/bigDFA-x-randomHexDFA.txt 2> test-outputs/boolop/bigDFA-x-randomHexDFA-err.txt
     terminated normally
   test-outputs/boolop/bigDFA-x-randomHexDFA.txt exists -- checking equivalence with solution DFA
-  OUTPUT FILE IS NOT A DFA (DFA PARSE ERROR)
+  the DFAs are equivalent (correct)
   Running boolop (product) on bigDFA and bigDFA-comp ...
     java closure bigDFA.txt bigDFA-comp.txt > test-outputs/boolop/bigDFA-x-bigDFA-comp.txt 2> test-outputs/boolop/bigDFA-x-bigDFA-comp-err.txt
     terminated normally
   test-outputs/boolop/bigDFA-x-bigDFA-comp.txt exists -- checking equivalence with solution DFA
-  OUTPUT FILE IS NOT A DFA (DFA PARSE ERROR)
+  the DFAs are equivalent (correct)
   Running boolop (product) on bigDFA-comp and randomHexDFA ...
     java closure bigDFA-comp.txt randomHexDFA.txt > test-outputs/boolop/bigDFA-comp-x-randomHexDFA.txt 2> test-outputs/boolop/bigDFA-comp-x-randomHexDFA-err.txt
     terminated normally
   test-outputs/boolop/bigDFA-comp-x-randomHexDFA.txt exists -- checking equivalence with solution DFA
-  OUTPUT FILE IS NOT A DFA (DFA PARSE ERROR)
+  the DFAs are equivalent (correct)
 done with boolop
 
 ######################################################
@@ -124,12 +124,12 @@ minimizer: not implemented -- minimizer.txt does not exist
   progress level 0 with 0 execution errors
 searcher: not implemented -- searcher.txt does not exist
   progress level 0 with 0 execution errors
-boolop: execution always completed, but there were errors
-  progress level 4 with 8 execution errors
+boolop: execution always completed without errors
+  progress level 5 with 0 execution errors
 invhom: not implemented -- invhom.txt does not exist
   progress level 0 with 0 execution errors
 properties: not implemented -- properties.txt does not exist
   progress level 0 with 0 execution errors
 
-There were a total of 8 execution errors found.
+There were a total of 0 execution errors found.
 ######################################################

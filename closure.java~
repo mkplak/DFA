@@ -225,11 +225,6 @@ public class closure {
 
 	boolean isSecondItem = false;
 
-	DFAObj d1 = new DFAObj(numStates, acceptStates, alphabet, dfaList, constructList, transTable);
-	DFAObj d2 = new DFAObj(numStates, acceptStates, alphabet, dfaList, constructList, transTable);
-
-	//System.out.println("num states is: " + d1.numStatesObj);
-
 	closure dfa2 = new closure();
 	int numStates2 = 0;
 	List<String> acceptStates2 = new ArrayList<String>();
@@ -267,10 +262,8 @@ public class closure {
 		try {
 		    String currLine;
 		    br = new BufferedReader(new FileReader(complement));
-			//System.out.println("first DFA is: ");
 		    while ((currLine = br.readLine()) != null) {
 			dfaList.add(currLine);
-			//System.out.println(currLine);
 		    }
 		} 
 
@@ -288,8 +281,6 @@ public class closure {
 		dfa.readInDFA(numStates, acceptStates, alphabet, transTable, dfaList, constructList, secondArg, numStates2, acceptStates2, alphabet2, transTable2, dfaList2, constructList2);
 	}
 
-
-
 	else if (secondArg == true) {
 
 		BufferedReader br = null;
@@ -297,10 +288,8 @@ public class closure {
 		try {
 		    String currLine;
 		    br = new BufferedReader(new FileReader(complement));
-			//System.out.println("first DFA is: ");
 		    while ((currLine = br.readLine()) != null) {
 			dfaList.add(currLine);
-			//System.out.println(currLine);
 		    }
 		} 
 
@@ -316,11 +305,6 @@ public class closure {
 		    }
 	  	}
 
-
-
-
-
-		//System.out.println("in second arg stuff");
 		BufferedReader br2 = null;
 
 		try {
@@ -328,7 +312,6 @@ public class closure {
 		    br2 = new BufferedReader(new FileReader(construct));
 		    while ((currLine = br2.readLine()) != null) {
 			dfaList2.add(currLine);
-			//System.out.println(currLine);
 		    }
 		} 
 
@@ -347,27 +330,6 @@ public class closure {
 		// now that the data has been taken from the file and stored in the DFA list
 		// we can begin parsing it
 		dfa2.readInDFA(numStates, acceptStates, alphabet, transTable, dfaList, constructList, secondArg, numStates2, acceptStates2, alphabet2, transTable2, dfaList2, constructList2);
-
-		//dfa2.readInDFA(numStates2, acceptStates2, alphabet2, transTable2, dfaList2, constructList2, secondArg);
 	}
   }
-}
-
-class DFAObj {
-	public static int numStatesObj = 0;
-	public static List<String> acceptStatesObj = new ArrayList<String>();
-	public static String alphabetObj = "";
-	public static List<String> dfaListObj = new ArrayList<String>();
-	public static List<String> stringsListObj = new ArrayList<String>();
-	public static boolean isConstruct = false;
-	public static int[][] transTableObj = new int[numStatesObj][alphabetObj.length()];
-
-	DFAObj(int numStates, List<String> acceptStates, String alphabet, List<String> dfaList, List<String> stringsList, int[][] transTable) {
-		this.numStatesObj = numStates;
-		this.acceptStatesObj = acceptStates;
-		this.alphabetObj = alphabet;
-		this.dfaListObj = dfaList;
-		this.stringsListObj = stringsList;
-		this.transTableObj = transTable;
-	}
 }

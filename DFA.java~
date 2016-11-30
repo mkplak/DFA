@@ -143,6 +143,7 @@ public class DFA {
 				indexOfElem = alphabet.indexOf(lineCharStr);
 				currentState = transTable[currentState][indexOfElem];
 			}
+			System.out.println("Current " + currentState);
 			String finalNum = String.valueOf(currentState);
 			//System.out.println("accept states contains " + numReturn + " is: " + acceptStates.contains(String.valueOf(numReturn)));
 			if (acceptStates.contains(String.valueOf(finalNum)) == true) {
