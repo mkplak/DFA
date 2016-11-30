@@ -3,7 +3,7 @@ import java.io.*;
 
 public class closure {
 
-	public void readInDFA(int numStates, List<String> acceptStates, String alphabet, String[] transTable, List<String> dfaList, List<String> stringsList, boolean isConstruct) {
+	public void readInDFA(int numStates, List<String> acceptStates, String alphabet, int[][] transTable, List<String> dfaList, List<String> stringsList, boolean isConstruct, int numStates2, List<String> acceptStates2, String alphabet2, int[][] transTable2, List<String> dfaList2, List<String> stringsList2) {
 		int numAccepting = 0;
 		int alphabetSize = 0;
 		int transCtr = 0;
@@ -17,12 +17,11 @@ public class closure {
 				temp = temp.substring(18);
 				//System.out.println("temp: " + temp);
 				numStates = Integer.parseInt(temp);
-				transTable = new String[numStates];
-
-				//makeDFA.setNumStates(numStates);
+				//transTable = new String[numStates];
 			}
 			// get the accepting states
 			else if (dfaList.get(i).contains("Accepting")) {
+				//System.out.println("in accepting");
 				String temp2 = dfaList.get(i);
 				// add a space at the end to get the last item
 				temp2 += " ";
@@ -34,54 +33,6 @@ public class closure {
 					//System.out.println("item split: " + acceptStatesArr[n]);
 					acceptStates.add(acceptStatesArr[n]);
 				}
-
-				/*temp2 = temp2.replaceAll("\\s+", "");
-				for (int j = 0; j < temp2.length(); j++) {
-					char currElem = temp2.charAt(j);
-					System.out.println("curr item: " + temp2.substring(j,j+1));
-					System.out.println("is next: " + temp2.substring(j+1,j+2));
-					String test = "hello"+ temp2.substring(j+1,j+2) + "elloh";
-					System.out.println(test);
-
-					if (j+2 <= temp2.length() && temp2.substring(j+1,j+2) == " ") {
-						System.out.println("in first check, resetting currElemStr");
-						currElemStr = "";
-					}
-					else if (j+2 <= temp2.length() && temp2.substring(j+1,j+2) != " ") {
-						currElem = temp2.charAt(j);
-						currElemStr += String.valueOf(currElem);
-						System.out.println("curr elem: " + currElem);
-						System.out.println("currElemStr= " + currElemStr);
-						if (currElem != ' ') {
-							acceptStates.add(currElemStr);
-							System.out.println("added: " + currElemStr);
-						}
-						//acceptStates.add(currElemStr);
-						//System.out.println(currElemStr);
-					}
-
-
-
-
-					//char currElem = temp2.charAt(j);
-					//String currElemStr = String.valueOf(currElem);
-					//acceptStates.add(currElemStr);
-					//System.out.println(currElemStr);
-				}*/
-
-				/*System.out.println("length: " + temp.length());
-				int length = temp.length();
-				char[] alphaChar = temp.toCharArray();
-				for (i = 0; i < length; i++) {
-					if (alphaChar[i] != '\n') { // || alphaChar[i] != ' ') {
-						//if (alphaChar[i] == ' ') break;
-						System.out.println("temp substr: " + alphaChar[i]);//temp.substring(i,i+1));
-						//int temp = Integer.parseInt(temp.substring(counter,counter+1));
-						temp = Character.toString(alphaChar[i]);//temp.substring(i,i+1);
-						acceptStates.add(temp);
-						System.out.println(temp);
-					}
-				}*/
 			}
 			// get the alphabet
 			else if (dfaList.get(i).contains("Alphabet")) {
@@ -118,18 +69,78 @@ public class closure {
 				
 			}*/
 
-		System.out.println("isConstruct: " + isConstruct);
-		if (isConstruct == true) {
-			construction(numStates, acceptStates, alphabet, transTableNum, dfaList, stringsList);
-		}
-		else {
+		if (isConstruct == false) {
 			complement(numStates, acceptStates, alphabet, transTableNum, dfaList, stringsList);
 		}
-	}
+
+		else if (isConstruct == true) {
+			// stores second DFA
+
+			int numAccepting2 = 0;
+			int alphabetSize2 = 0;
+			int transCtr2 = 0;
+			int[][] transTableNum2 = new int[numStates2][alphabetSize2];
+		
+			for (int i = 0; i < dfaList2.size(); i++) {
+				//System.out.println(dfaList.get(i));
+				// get the number of states
+				if (dfaList2.get(i).contains("Number")) {
+					String temp = dfaList2.get(i);
+					temp = temp.substring(18);
+					//System.out.println("temp: " + temp);
+					numStates2 = Integer.parseInt(temp);
+					//transTable = new String[numStates];
+				}
+				// get the accepting states
+				else if (dfaList2.get(i).contains("Accepting")) {
+					String temp2 = dfaList2.get(i);
+					// add a space at the end to get the last item
+					temp2 += " ";
+					numAccepting2 = temp2.length();
+					temp2 = temp2.substring(18,temp2.length());
+					String currElemStr = "";//String.valueOf(currElem);
+					String[] acceptStatesArr = temp2.split(" ");
+					for (int n = 0; n < acceptStatesArr.length; n++) {
+						//System.out.println("item split: " + acceptStatesArr[n]);
+						acceptStates2.add(acceptStatesArr[n]);
+					}
+				}
+				// get the alphabet
+				else if (dfaList2.get(i).contains("Alphabet")) {
+					String temp3 = dfaList2.get(i);
+					//System.out.println(temp3);
+					temp3 = temp3.substring(10,temp3.length());
+					alphabet2 = temp3;
+					alphabetSize2 = alphabet2.length();
+					transTableNum2 = new int[numStates2][alphabetSize2];
+				}
+				// read in the transition table
+				else {
+					// create an array that is the size of the number of states
+					// in here, i will create a string for each row in the table of the transition table
+					//rows x columns
+					String readIn = dfaList2.get(i);
+
+					if (i > 2) {
+						for (int q = 0; q < alphabetSize2; q++) {
+							String[] rowStr = readIn.split(" ");
+							int rowInt = Integer.parseInt(rowStr[q]);
+							transTableNum2[i-3][q] = rowInt;
+						}
+
+					}				
+				}
+
+			}
+			// do the construction of the two DFA's before the end of the if
+		construction(numStates, acceptStates, alphabet, transTableNum, dfaList, stringsList, numStates2, acceptStates2, alphabet2, transTableNum2, dfaList2, stringsList2);
+
+	} // end of if second item
+}
 
 
 	public void complement(int numStates, List<String> acceptStates, String alphabet, int[][] transTable, List<String> dfaList, List<String> constructList) {
-		System.out.println("in complement");
+		//System.out.println("in complement");
 		List<String> newAccept = new ArrayList<String>();
 		for (int i = 0; i < numStates; i++) {
 			if (!acceptStates.contains(Integer.toString(i))) {
@@ -151,29 +162,51 @@ public class closure {
 		}
 	}
 
-	public void construction(int numStates, List<String> acceptStates, String alphabet, int[][] transTable, List<String> dfaList, List<String> constructList) {
+	public void construction(int numStates, List<String> acceptStates, String alphabet, int[][] transTable, List<String> dfaList, List<String> constructList, int numStates2, List<String> acceptStates2, String alphabet2, int[][] transTable2, List<String> dfaList2, List<String> stringsList2) {
 
-		System.out.println("in construction");
-
-		List<String> newAccept = new ArrayList<String>();
-		for (int i = 0; i < numStates; i++) {
-			if (!acceptStates.contains(Integer.toString(i))) {
-				newAccept.add(Integer.toString(i));
+		//System.out.println("in construction");
+		int numStatesF = numStates * numStates2;
+		List<String> acceptStatesF = new ArrayList<String>();
+		int[][] transTableF = new int[numStatesF][alphabet.length()];
+		int cntr = 0;
+		int[][] transTable3 = new int[numStatesF][alphabet.length()];
+		//System.out.println("accept states 1 size: " + acceptStates.size());
+		//System.out.println("accept states 2 size: " + acceptStates2.size());
+		for (int a = 0; a < acceptStates.size(); a++) {
+			for (int b = 0; b < acceptStates2.size(); b++) {
+				String newAccept = acceptStates.get(a) + "" + acceptStates2.get(b);
+				int newDigit = ((Integer.valueOf(acceptStates.get(a))) * numStates2) + (Integer.valueOf(acceptStates2.get(b)));
+				acceptStatesF.add(Integer.toString(newDigit));
 			}
 		}
-		System.out.println("Number of states: " + numStates);
+
+		for (int i = 0; i < numStates; i++) {
+			for (int j = 0; j < numStates2; j++) {
+				for (int k = 0; k < alphabet.length(); k++) {
+					transTableF[cntr][k] = Integer.valueOf((Integer.toString(transTable[i][k]) + "" + Integer.toString(transTable2[j][k])));
+					// do the transition to the actual states
+					// when looking through the table it seems to do the transition you take the first digit, multiply it
+					// by the numStates, then add the second digit
+					int firstDig = ((transTable[i][k] * numStates2) + transTable2[j][k]);
+					transTable3[cntr][k] = firstDig;
+				} 
+			//System.out.println("cntr = " + cntr);
+			cntr += 1;
+			}
+		}	
+		// print out the new DFA description
+		System.out.println("Number of states: " + numStatesF);
 		System.out.print("Accepting states: ");
-		for (int j = 0; j < newAccept.size(); j++) {
-			System.out.print(newAccept.get(j) + " ");
+		for (int n = 0; n < acceptStatesF.size(); n++) {
+			System.out.print(acceptStatesF.get(n) + " ");
 		}
-		System.out.println("");
-		System.out.println("Alphabet: " + alphabet);
-		for (int k = 0; k < numStates; k++) {
-			for (int l = 0; l < alphabet.length(); l++) {
-				System.out.print(transTable[k][l] + " ");
+		System.out.println("\nAlphabet: " + alphabet);
+		for (int l = 0; l < cntr; l++) {
+			for (int m = 0; m < alphabet.length(); m++) {
+				System.out.print(transTable3[l][m] + " ");
 			}
 			System.out.println("");
-		}
+		}	
 	}
 
   public static void main(String[] args) {
@@ -183,17 +216,25 @@ public class closure {
 	int numStates = 0;
 	List<String> acceptStates = new ArrayList<String>();
 	String alphabet = "";
-	String[] transTable = null;
+	int[][] transTable = null;
 	List<String> dfaList = new ArrayList<String>();
 	List<String> constructList = new ArrayList<String>();
 	boolean first = false;
 	boolean second = false;
 
+
+	boolean isSecondItem = false;
+
+	DFAObj d1 = new DFAObj(numStates, acceptStates, alphabet, dfaList, constructList, transTable);
+	DFAObj d2 = new DFAObj(numStates, acceptStates, alphabet, dfaList, constructList, transTable);
+
+	//System.out.println("num states is: " + d1.numStatesObj);
+
 	closure dfa2 = new closure();
 	int numStates2 = 0;
 	List<String> acceptStates2 = new ArrayList<String>();
 	String alphabet2 = "";
-	String[] transTable2 = null;
+	int[][] transTable2 = null;
 	List<String> dfaList2 = new ArrayList<String>();
 	List<String> constructList2 = new ArrayList<String>();
 
@@ -209,7 +250,6 @@ public class closure {
 	   first = true;
 	}
 	else if (args.length == 2) {
-	   System.out.println("two args");
 	   complement = new File(args[0]);
 	   first = true;
 	   construct = new File(args[1]);
@@ -220,49 +260,75 @@ public class closure {
 	   System.err.println("Invalid arguments count:" + args.length);
 	   System.exit(0);
 	}
+	if (secondArg == false) {
 
-	BufferedReader br = null;
+		BufferedReader br = null;
 
-	try {
-	    String currLine;
-	    br = new BufferedReader(new FileReader(complement));
-		System.out.println("first DFA is: ");
-	    while ((currLine = br.readLine()) != null) {
-		dfaList.add(currLine);
-		System.out.println(currLine);
-	    }
-	} 
+		try {
+		    String currLine;
+		    br = new BufferedReader(new FileReader(complement));
+			//System.out.println("first DFA is: ");
+		    while ((currLine = br.readLine()) != null) {
+			dfaList.add(currLine);
+			//System.out.println(currLine);
+		    }
+		} 
 
-	catch (IOException e) {
-	    e.printStackTrace();
-	} 
+		catch (IOException e) {
+		    e.printStackTrace();
+		} 
 
-	finally {
-	    try {
-	        if (br != null)br.close();
-	    } catch (IOException ex) {
-	        ex.printStackTrace();
-	    }
-  	}
-
-
-	// now that the data has been taken from the file and stored in the DFA list
-	// we can begin parsing it
-	dfa.readInDFA(numStates, acceptStates, alphabet, transTable, dfaList, constructList, secondArg);
+		finally {
+		    try {
+			if (br != null)br.close();
+		    } catch (IOException ex) {
+			ex.printStackTrace();
+		    }
+	  	}
+		dfa.readInDFA(numStates, acceptStates, alphabet, transTable, dfaList, constructList, secondArg, numStates2, acceptStates2, alphabet2, transTable2, dfaList2, constructList2);
+	}
 
 
-	if (secondArg == true) {
 
-		System.out.println("in second arg stuff");
+	else if (secondArg == true) {
+
+		BufferedReader br = null;
+
+		try {
+		    String currLine;
+		    br = new BufferedReader(new FileReader(complement));
+			//System.out.println("first DFA is: ");
+		    while ((currLine = br.readLine()) != null) {
+			dfaList.add(currLine);
+			//System.out.println(currLine);
+		    }
+		} 
+
+		catch (IOException e) {
+		    e.printStackTrace();
+		} 
+
+		finally {
+		    try {
+			if (br != null)br.close();
+		    } catch (IOException ex) {
+			ex.printStackTrace();
+		    }
+	  	}
+
+
+
+
+
+		//System.out.println("in second arg stuff");
 		BufferedReader br2 = null;
 
 		try {
 		    String currLine;
 		    br2 = new BufferedReader(new FileReader(construct));
-		    System.out.println("second DFA is: ");
 		    while ((currLine = br2.readLine()) != null) {
 			dfaList2.add(currLine);
-			System.out.println(currLine);
+			//System.out.println(currLine);
 		    }
 		} 
 
@@ -277,22 +343,26 @@ public class closure {
 			ex.printStackTrace();
 		    }
 	  	}
-		dfa2.readInDFA(numStates2, acceptStates2, alphabet2, transTable2, dfaList2, constructList2, secondArg);
+
+		// now that the data has been taken from the file and stored in the DFA list
+		// we can begin parsing it
+		dfa2.readInDFA(numStates, acceptStates, alphabet, transTable, dfaList, constructList, secondArg, numStates2, acceptStates2, alphabet2, transTable2, dfaList2, constructList2);
+
+		//dfa2.readInDFA(numStates2, acceptStates2, alphabet2, transTable2, dfaList2, constructList2, secondArg);
 	}
   }
 }
 
-public class DFAObj {
-	int numStatesObj = 0;
-	List<String> acceptStatesObj = new ArrayList<String>();
-	String alphabetObj = "";
-	//String[] transTableObj = null;
-	List<String> dfaListObj = new ArrayList<String>();
-	List<String> stringsListObj = new ArrayList<String>();
-	boolean isConstruct = false;
-	int[][] transTableObj = new int[numStatesObj][alphabetObj.length()];
+class DFAObj {
+	public static int numStatesObj = 0;
+	public static List<String> acceptStatesObj = new ArrayList<String>();
+	public static String alphabetObj = "";
+	public static List<String> dfaListObj = new ArrayList<String>();
+	public static List<String> stringsListObj = new ArrayList<String>();
+	public static boolean isConstruct = false;
+	public static int[][] transTableObj = new int[numStatesObj][alphabetObj.length()];
 
-	DFA(int numStates, List<String> acceptStates, String alphabet, List<String> dfaList, List<String> stringsList, int[][] transTable) {
+	DFAObj(int numStates, List<String> acceptStates, String alphabet, List<String> dfaList, List<String> stringsList, int[][] transTable) {
 		this.numStatesObj = numStates;
 		this.acceptStatesObj = acceptStates;
 		this.alphabetObj = alphabet;

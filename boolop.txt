@@ -1,0 +1,4 @@
+Build:
+javac closure.java
+Run:
+java closure
