@@ -94,7 +94,7 @@ public class DFA {
 				indexOfElem = alphabet.indexOf(lineCharStr);
 				currentState = transTable[currentState][indexOfElem];
 			}
-			//System.out.println("Current " + currentState);
+			// check to see if the final state is an accepting state, which was read in earlier
 			String finalNum = String.valueOf(currentState);
 			if (acceptStates.contains(String.valueOf(finalNum)) == true) {
 				System.out.println("accept");
