@@ -1,4 +1,4 @@
-Comments for self-test -------- Thu Dec 1, 2016 at 18:34:51 EST
+Comments for self-test -------- Thu Dec 1, 2016 at 16:22:0 EST
 parsing simulator.txt ... done
 building simulator ...
   javac DFA.java
@@ -115,44 +115,6 @@ testing boolop ...
   the DFAs are equivalent (correct)
 done with boolop
 
-parsing invhom.txt ... done
-building invhom ...
-  javac homomorphism.java
-    succeeded
-done
-testing invhom ...
-  Running invhom on bigDFA ...
-    java homomorphism bigDFA.txt bigDFA-hom.txt > test-outputs/invhom/bigDFA-out.txt 2> test-outputs/invhom/bigDFA-err.txt
-    terminated normally
-  test-outputs/invhom/bigDFA-out.txt exists -- checking equivalence with solution DFA
-  the DFAs are equivalent (correct)
-  Running invhom on biggerDFA ...
-    java homomorphism biggerDFA.txt biggerDFA-hom.txt > test-outputs/invhom/biggerDFA-out.txt 2> test-outputs/invhom/biggerDFA-err.txt
-    terminated normally
-  test-outputs/invhom/biggerDFA-out.txt exists -- checking equivalence with solution DFA
-  the DFAs are equivalent (correct)
-  Running invhom on handoutDFA ...
-    java homomorphism handoutDFA.txt handoutDFA-hom.txt > test-outputs/invhom/handoutDFA-out.txt 2> test-outputs/invhom/handoutDFA-err.txt
-    terminated normally
-  test-outputs/invhom/handoutDFA-out.txt exists -- checking equivalence with solution DFA
-  the DFAs are equivalent (correct)
-  Running invhom on randomDFA1 ...
-    java homomorphism randomDFA1.txt randomDFA1-hom.txt > test-outputs/invhom/randomDFA1-out.txt 2> test-outputs/invhom/randomDFA1-err.txt
-    terminated normally
-  test-outputs/invhom/randomDFA1-out.txt exists -- checking equivalence with solution DFA
-  the DFAs are equivalent (correct)
-  Running invhom on randomDFA2 ...
-    java homomorphism randomDFA2.txt randomDFA2-hom.txt > test-outputs/invhom/randomDFA2-out.txt 2> test-outputs/invhom/randomDFA2-err.txt
-    terminated normally
-  test-outputs/invhom/randomDFA2-out.txt exists -- checking equivalence with solution DFA
-  the DFAs are equivalent (correct)
-  Running invhom on randomDFA3 ...
-    java homomorphism randomDFA3.txt randomDFA3-hom.txt > test-outputs/invhom/randomDFA3-out.txt 2> test-outputs/invhom/randomDFA3-err.txt
-    terminated normally
-  test-outputs/invhom/randomDFA3-out.txt exists -- checking equivalence with solution DFA
-  the DFAs are equivalent (correct)
-done with invhom
-
 ######################################################
 Summary for self-test:
 
@@ -164,8 +126,8 @@ searcher: not implemented -- searcher.txt does not exist
   progress level 0 with 0 execution errors
 boolop: execution always completed without errors
   progress level 5 with 0 execution errors
-invhom: execution always completed without errors
-  progress level 5 with 0 execution errors
+invhom: not implemented -- invhom.txt does not exist
+  progress level 0 with 0 execution errors
 properties: not implemented -- properties.txt does not exist
   progress level 0 with 0 execution errors
 
