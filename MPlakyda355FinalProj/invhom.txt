@@ -1,0 +1,4 @@
+Build:
+javac homomorphism.java
+Run:
+java homomorphism

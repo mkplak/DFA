@@ -1,0 +1,4 @@
+Build:
+javac DFA.java
+Run:
+java DFA

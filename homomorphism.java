@@ -3,7 +3,7 @@ import java.io.*;
 
 /*
 This is made by Melissa Plakyda for CSCE 355-001 Fall 2016.
-This class performs the simulator task as described in the assignments document.
+This class performs the homomorphism task as described in the assignments document.
 */
 
 public class homomorphism {
